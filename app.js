@@ -40,10 +40,11 @@ app.get('/', (req, res) => {
 app.get('/restaurants/:id', (req, res) => {
 
   const reqId = req.params.id
-  const filteredRestaurant = restaurantList.results.filter(restaurant => {
-    return restaurant.id === reqId
+  const targetRestaurant = restaurantList.results.find(restaurant => {
+    return restaurant.id.toString() === reqId
   })
-  res.render('show', { restaurant: filteredRestaurant })
+  console.log(targetRestaurant)
+  res.render('show', { restaurant: targetRestaurant })
 })
 
 app.listen(port, () => {
