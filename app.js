@@ -34,7 +34,16 @@ app.use('/', express.static('public'))
 app.get('/', (req, res) => {
   // console.log('hi')
 
-  res.render('index', { restaurant: restaurantList })
+  res.render('index', { restaurant: restaurantList.results })
+})
+
+app.get('/restaurants/:id', (req, res) => {
+
+  const reqId = req.params.id
+  const filteredRestaurant = restaurantList.results.filter(restaurant => {
+    return restaurant.id === reqId
+  })
+  res.render('show', { restaurant: filteredRestaurant })
 })
 
 app.listen(port, () => {
