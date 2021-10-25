@@ -24,11 +24,13 @@ app.set('views', process.cwd() + '/views')
 // set engine to handlebars
 app.set('view engine', 'handlebars')
 
+// set static file root
 
+app.use('/', express.static('public'))
 
 
 app.get('/', (res, req) => {
-  req.send('hi, this is a draft')
+  req.render('index')
 })
 
 app.listen(port, () => {
