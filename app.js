@@ -32,10 +32,10 @@ app.use('/', express.static('public'))
 
 
 app.get('/', (req, res) => {
-  // console.log('hi')
 
   res.render('index', { restaurant: restaurantList.results })
 })
+
 
 app.get('/restaurants/:id', (req, res) => {
 
@@ -43,9 +43,23 @@ app.get('/restaurants/:id', (req, res) => {
   const targetRestaurant = restaurantList.results.find(restaurant => {
     return restaurant.id.toString() === reqId
   })
-  console.log(targetRestaurant)
+
   res.render('show', { restaurant: targetRestaurant })
 })
+
+// TODO: 簡化搜尋
+app.get('/search', (req, res) => {
+  // console.log('hi')
+  const keyword = req.query.keyword
+  const filteredRestaurants = restaurantList.results.filter(restaurant => {
+    return restaurant.name.toLowerCase().includes(keyword.toLowerCase()) ||
+      restaurant.category.toLowerCase().includes(keyword.toLowerCase())
+  })
+
+  res.render('index', { restaurant: filteredRestaurants })
+})
+
+
 
 app.listen(port, () => {
   console.log(`The express server is running at port ${port}`)
