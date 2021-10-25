@@ -6,6 +6,8 @@ const app = express()
 // define port
 const port = 3500
 
+// define restaurant data
+const restaurantList = require('./restaurant.json')
 // define view engine
 const viewEngine = require('express-handlebars').create({
   layoutsDir: "views/layouts",
@@ -29,8 +31,10 @@ app.set('view engine', 'handlebars')
 app.use('/', express.static('public'))
 
 
-app.get('/', (res, req) => {
-  req.render('index')
+app.get('/', (req, res) => {
+  // console.log('hi')
+
+  res.render('index', { restaurant: restaurantList })
 })
 
 app.listen(port, () => {
