@@ -1,38 +1,40 @@
 
-// define express server
+// define express server, handlebars, restaurant data
 const express = require('express')
+const handlebarsModule = require('express-handlebars')
+const restaurantList = require('./restaurant.json')
+
 const app = express()
+
+
+
+// define engine setting by creating handlebars instance
+const handlebarsInstance = handlebarsModule.create({
+  layoutsDir: "views/layouts",
+  extname: ".hbs",
+  defaultLayout: "main"
+})
 
 // define port
 const port = 3500
 
-// define restaurant data
-const restaurantList = require('./restaurant.json')
-// define view engine
-const viewEngine = require('express-handlebars').create({
-  layoutsDir: "views/layouts",
-  extname: ".handlebars",
-  defaultLayout: "main"
-})
-
-// create a engine instance to the express server
-
-// bind the engine to the file type
-app.engine('handlebars', viewEngine.engine)
-
 // set default views path
 app.set('views', process.cwd() + '/views')
 
-// set engine to handlebars
-app.set('view engine', 'handlebars')
+// register the engine function as .hbsa
+app.engine('.hbs', handlebarsInstance.engine)
+
+// set view engine in app to .hbs
+app.set('view engine', '.hbs')
+
 
 // set static file root
-
 app.use('/', express.static('public'))
 
 
-app.get('/', (req, res) => {
+// define route for root, search, restaurants
 
+app.get('/', (req, res) => {
   res.render('index', { restaurant: restaurantList.results })
 })
 
@@ -49,7 +51,6 @@ app.get('/restaurants/:id', (req, res) => {
 
 // TODO: 簡化搜尋
 app.get('/search', (req, res) => {
-  // console.log('hi')
   const keyword = req.query.keyword
   const filteredRestaurants = restaurantList.results.filter(restaurant => {
     return restaurant.name.toLowerCase().includes(keyword.toLowerCase()) ||
