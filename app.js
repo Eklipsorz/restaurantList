@@ -63,6 +63,12 @@ app.get('/search', (req, res) => {
   // fetch keyword and trim additional spaces
   const keyword = req.query.keyword.trim()
 
+  if (keyword === '') {
+    res.redirect('/')
+    return
+  }
+
+
   // find a set of restaurants by keyword and put them into filteredRestaurants
   // filteredRestaurants represents search result
   const filteredRestaurants = restaurantList.filter(restaurant => {
@@ -71,7 +77,7 @@ app.get('/search', (req, res) => {
   })
 
 
-  // if filteredRestaurants is empty, the system will render to origin view
+  // if filteredRestaurants is empty, the system will render to origin view with a alert widget
   // if filteredRestaurants is not empty, the system will render to new view via search result
   let restaurants = filteredRestaurants.length ? filteredRestaurants : restaurantList
 
@@ -79,6 +85,7 @@ app.get('/search', (req, res) => {
   // true means a alert tell us the system find nothing by keyword.
   // false means nothing happened .
   let enableAlert = filteredRestaurants.length ? false : true
+
 
   // render with index.hbs, search results, keyword, enableAlert which enables alert widget to remind user
   res.render('index', { restaurants, keyword, enableAlert })

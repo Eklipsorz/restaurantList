@@ -1,5 +1,5 @@
 {
-  "name": "restaurantList",
+  "name": "restaurant-list",
   "version": "1.0.0",
   "description": "Restaurant List",
   "main": "app.js",
