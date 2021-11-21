@@ -21,7 +21,7 @@
   <div class="row">
     <div class="col-md-10 col-12 mx-auto">
       <div class="card-columns">
-        {{#each restaurant}}
+        {{#each restaurants}}
         <a href="/restaurants/{{ this.id }}" class="text-secondary">
           <div class="card mb-3">
             <img class="card-img-top" src={{ this.image }} alt={{ this.name }}>
@@ -45,3 +45,14 @@
     </div>
   </div>
 </div>
+
+{{#if enableAlert}}
+<script>
+  Swal.fire({
+    title: '搜尋失敗',
+    text: '搜尋名為 {{ keyword }} 的餐廳，請更換名稱',
+    icon: 'error',
+    confirmButtonText: '確認'
+  })
+</script>
+{{/if}}

@@ -2,7 +2,9 @@
 // define express server, handlebars, restaurant data
 const express = require('express')
 const handlebarsModule = require('express-handlebars')
-const restaurantList = require('./restaurant.json')
+const restaurantList = require('./restaurant.json').results
+
+
 
 const app = express()
 
@@ -33,31 +35,40 @@ app.use('/', express.static('public'))
 
 
 // define route for root, search, restaurants
-
 app.get('/', (req, res) => {
-  res.render('index', { restaurant: restaurantList.results })
+
+  let restaurants = restaurantList
+  let enableAlert = false
+
+  res.render('index', { restaurants, enableAlert })
 })
 
 
 app.get('/restaurants/:id', (req, res) => {
 
   const reqId = req.params.id
-  const targetRestaurant = restaurantList.results.find(restaurant => {
+  const targetRestaurant = restaurantList.find(restaurant => {
     return restaurant.id.toString() === reqId
   })
 
-  res.render('show', { restaurant: targetRestaurant })
+  res.render('show', { targetRestaurant })
 })
 
 // TODO: 簡化搜尋
 app.get('/search', (req, res) => {
-  const keyword = req.query.keyword
-  const filteredRestaurants = restaurantList.results.filter(restaurant => {
+
+
+  const keyword = req.query.keyword.trim()
+
+  const filteredRestaurants = restaurantList.filter(restaurant => {
     return restaurant.name.toLowerCase().includes(keyword.toLowerCase()) ||
       restaurant.category.toLowerCase().includes(keyword.toLowerCase())
   })
 
-  res.render('index', { restaurant: filteredRestaurants })
+  let restaurants = filteredRestaurants.length ? filteredRestaurants : restaurantList
+  let enableAlert = filteredRestaurants.length ? false : true
+
+  res.render('index', { restaurants, keyword, enableAlert })
 })
 
 
