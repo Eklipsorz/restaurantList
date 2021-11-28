@@ -1,8 +1,6 @@
 <div class="container">
   <form method="get" action="/restaurants/new" id="form" novalidate>
 
-
-
     <h1>
       餐廳介紹資料填寫
     </h1>
@@ -11,7 +9,9 @@
     <div class="form-row mb-3">
       <div class="col input-group">
         <div class="input-group-prepend">
-          <span class="input-group-text">名稱：</span>
+          <label for="name" class="input-group-text">
+            名稱：
+          </label>
         </div>
         <input type="text" class="form-control" id="name" name="name" placeholder="請輸入餐廳中文名稱" required>
         <div class="valid-feedback">OK!</div>
@@ -19,10 +19,14 @@
       </div>
 
       <div class="col input-group">
+
         <div class="input-group-prepend">
-          <span class="input-group-text">英文：</span>
+          <label for="name_en" class="input-group-text">
+            英文：
+          </label>
         </div>
-        <input type="text" class="form-control" id="english-name" name="english-name" placeholder="請輸入餐廳英文名稱">
+
+        <input type="text" class="form-control" id="name_en" name="name_en" placeholder="請輸入餐廳英文名稱">
         <div class="valid-feedback">OK!</div>
         <div class="invalid-feedback">This field is required.</div>
       </div>
@@ -32,7 +36,9 @@
     <div class="form-row mb-3">
       <div class="col input-group">
         <div class="input-group-prepend">
-          <span class="input-group-text">類別：</span>
+          <label for="category" class="input-group-text">
+            類別：
+          </label>
         </div>
         <input type="text" class="form-control" list="categories" id="category" name="category"
           placeholder="請輸入餐廳類別或依據預設清單來選" required>
@@ -50,7 +56,9 @@
 
       <div class="col input-group">
         <div class="input-group-prepend">
-          <span class="input-group-text">評分：</span>
+          <label for="rating" class="input-group-text">
+            評分：
+          </label>
         </div>
         <input type="number" min="0" max="5" step="0.1" class="form-control" id="rating" name="rating"
           placeholder="請輸入餐廳評分(0.0-5.0) ...">
@@ -60,7 +68,9 @@
     <div class="form-row mb-3">
       <div class="col input-group">
         <div class="input-group-prepend">
-          <span class="input-group-text">簡介：</span>
+          <label for="description" class="input-group-text">
+            簡介：
+          </label>
         </div>
         <textarea class="form-control description" id="description" name="description" placeholder="請輸入餐廳簡介" rows="5"
           cols="12"></textarea>
@@ -72,17 +82,66 @@
     <div class="form-row mb-3">
       <div class="col input-group">
         <div class="input-group-prepend">
-          <span class="input-group-text">圖片連結：</span>
+          <label for="image" class="input-group-text">
+            圖片連結：
+          </label>
         </div>
-        <input type="text" class="form-control" id="img-link" name="imglink" placeholder="請輸入餐廳圖片URL ..." required>
-        <div class="valid-feedback">OK!</div>
-        <div class="invalid-feedback">This field is required.</div>
+        <input type="text" class="form-control" id="image" name="image" placeholder="請輸入餐廳圖片URL" required>
+        <div class="input-group-append">
+          <button class="btn btn-secondary" type="button" id="preview-load-button">圖片預覽</button>
+        </div>
       </div>
     </div>
 
 
 
-    <button type="submit" id="submit">確認提交</button>
+    <h1>
+      地點與聯繫方式填寫
+    </h1>
+    <hr />
+
+    <div class="form-row mb-3">
+      <div class="col input-group">
+        <div class="input-group-prepend">
+          <label for="phone" class="input-group-text">
+            電話：
+          </label>
+        </div>
+        <input type="text" class="form-control" id="phone" name="phone" placeholder="請輸入餐廳電話，比如：02 1234 5678" required>
+      </div>
+    </div>
+
+    <div class="form-row mb-3">
+      <div class="col input-group">
+        <div class="input-group-prepend">
+          <label for="location" class="input-group-text">
+            地址：
+          </label>
+        </div>
+        <input type="text" class="form-control" id="location" name="location" placeholder="請輸入餐廳地址" required>
+      </div>
+    </div>
+
+    <div class="form-row mb-3">
+      <div class="col input-group">
+        <div class="input-group-prepend">
+          <label for="google_map" class="input-group-text">
+            地址連結：
+          </label>
+        </div>
+        <input type="text" class="form-control" id="google_map" name="google_map"
+          placeholder="請輸入餐廳在Google Map所在連結，比如https://goo.gl/maps/bnZKC2YjYZp" required>
+        <div class="input-group-append">
+          <button class="btn btn-secondary" type="button" id="preview-load-button">地址預覽</button>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="d-flex justify-content-around">
+      <button type="submit" class="btn btn-dark" id="submit">確認提交</button>
+      <a class="btn btn-dark" href="/">返回主畫面</a>
+    </div>
   </form>
 </div>
 
