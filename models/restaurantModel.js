@@ -31,7 +31,7 @@ const restaurantSchema = new Schema({
     type: String
   },
   rating: {
-    type: Double
+    type: mongoose.Types.Decimal128
   },
   google_map: {
     type: String
