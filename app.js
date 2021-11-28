@@ -42,9 +42,13 @@ app.get('/', (req, res) => {
   res.render('index', { restaurants, enableAlert })
 })
 
+// define route for adding restaurant
 app.get('/restaurants/new', (req, res) => {
-  console.log('hi')
-  res.render('index')
+  res.render('new')
+})
+
+app.post('/restaurants', (req, res) => {
+  console.log("received")
 })
 
 
