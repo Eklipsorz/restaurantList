@@ -13,34 +13,14 @@ db.on('error', () => {
   console.log('mongodb error!')
 })
 
-
-
-async function createDBData(dataSet, length) {
-
-  for (let index = 0; index < length; index++) {
-
-    restaurantModel.create({
-      name: dataSet[index].name,
-      name_en: dataSet[index].name_en,
-      category: dataSet[index].category,
-      rating: dataSet[index].rating,
-      description: dataSet[index].description,
-      image: dataSet[index].image,
-      phone: dataSet[index].phone,
-      location: dataSet[index].location,
-      google_map: dataSet[index].google_map
-    })
-
-  }
-}
-
-
 db.once('open', async () => {
   console.log('mongodb connected!')
 
 
   for (let index = 0; index < defaultData.length; index++) {
 
+    // each task just call create command one by one and the execution of some 
+    // commands might not be ended. It need to make them be synchronous task.
     await restaurantModel.create({
       name: defaultData[index].name,
       name_en: defaultData[index].name_en,
@@ -53,9 +33,8 @@ db.once('open', async () => {
       google_map: defaultData[index].google_map
     })
 
-
   }
-  
+
   db.close()
 
 })

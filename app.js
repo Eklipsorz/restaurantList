@@ -2,6 +2,9 @@
 // define express server, handlebars, restaurant data, express app
 const express = require('express')
 const handlebarsModule = require('express-handlebars')
+const mongoose = require('mongoose')
+const restaurantModel = require('./models/restaurantModel')
+// 
 const restaurantList = require('./restaurant.json').results
 const app = express()
 
@@ -18,6 +21,11 @@ const handlebarsInstance = handlebarsModule.create({
 // define port
 const port = 3500
 
+// define setting of database
+const dbPort = 27017
+const dbName = 'restaurantList'
+
+
 // set default views path
 app.set('views', process.cwd() + '/views')
 
@@ -32,14 +40,42 @@ app.set('view engine', '.hbs')
 app.use('/', express.static('public'))
 
 
+
+
+mongoose.connect(`mongodb://localhost:${dbPort}/${dbName}`)
+const db = mongoose.connection
+
+db.on('error', () => {
+  console.log('mongodb error!')
+})
+
+db.once('open', async () => {
+  console.log('mongodb connected!')
+})
+
+
+
+
+
+
+
 // define route for root
 app.get('/', (req, res) => {
-  // when receiving request, it sets values of two variable to default value
-  let restaurants = restaurantList
+
   let enableAlert = false
+  restaurantModel.find({})
+    .lean()
+    .exec()
+    .then(restaurants => res.render('index', { restaurants, enableAlert }))
+    .catch(error => console.log(error))
+
+
+  // when receiving request, it sets values of two variable to default value
+  // let restaurants = restaurantList
+  // let enableAlert = false
 
   // render with raw restaurant data and enableAlert which disables alert widget 
-  res.render('index', { restaurants, enableAlert })
+  // res.render('index', { restaurants, enableAlert })
 })
 
 // define route for adding restaurant
