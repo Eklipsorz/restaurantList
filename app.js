@@ -39,8 +39,8 @@ app.set('view engine', '.hbs')
 // set static file root
 app.use('/', express.static('public'))
 
-
-
+// set body parser for post message
+app.use('/', express.urlencoded({ extended: true }))
 
 mongoose.connect(`mongodb://localhost:${dbPort}/${dbName}`)
 const db = mongoose.connection
@@ -68,14 +68,6 @@ app.get('/', (req, res) => {
     .exec()
     .then(restaurants => res.render('index', { restaurants, enableAlert }))
     .catch(error => console.log(error))
-
-
-  // when receiving request, it sets values of two variable to default value
-  // let restaurants = restaurantList
-  // let enableAlert = false
-
-  // render with raw restaurant data and enableAlert which disables alert widget 
-  // res.render('index', { restaurants, enableAlert })
 })
 
 // define route for adding restaurant
@@ -92,12 +84,15 @@ app.post('/restaurants', (req, res) => {
 app.get('/restaurants/:id', (req, res) => {
   // get restaurant by reqId from request object 
   const reqId = req.params.id
-  const targetRestaurant = restaurantList.find(restaurant => {
-    return restaurant.id.toString() === reqId
-  })
 
-  // show detail of targetRestaurant
-  res.render('show', { targetRestaurant })
+
+  restaurantModel.findById(reqId)
+    .lean()
+    .exec()
+    .then((targetRestaurant) => res.render('show', { targetRestaurant }))
+    .catch(error => console.log(error))
+
+
 })
 
 // define route for searching
