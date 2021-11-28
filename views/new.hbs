@@ -8,7 +8,7 @@
     </h1>
     <hr />
 
-    <div class="form-row">
+    <div class="form-row mb-3">
       <div class="col input-group">
         <div class="input-group-prepend">
           <span class="input-group-text">名稱：</span>
@@ -20,45 +20,66 @@
 
       <div class="col input-group">
         <div class="input-group-prepend">
-          <span class="input-group-text">英文名稱：</span>
+          <span class="input-group-text">英文：</span>
         </div>
-        <input type="text" class="form-control" id="english-name" name="english-name" placeholder="請輸入餐廳英文名稱" required>
+        <input type="text" class="form-control" id="english-name" name="english-name" placeholder="請輸入餐廳英文名稱">
+        <div class="valid-feedback">OK!</div>
+        <div class="invalid-feedback">This field is required.</div>
+      </div>
+    </div>
+
+
+    <div class="form-row mb-3">
+      <div class="col input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">類別：</span>
+        </div>
+        <input type="text" class="form-control" list="categories" id="category" name="category"
+          placeholder="請輸入餐廳類別或依據預設清單來選" required>
+        <datalist id="categories">
+          <option>日本料理</option>
+          <option>義式餐廳</option>
+          <option>中東料理</option>
+          <option>美式</option>
+          <option>咖啡</option>
+          <option>酒吧</option>
+        </datalist>
         <div class="valid-feedback">OK!</div>
         <div class="invalid-feedback">This field is required.</div>
       </div>
 
-
-
-
+      <div class="col input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">評分：</span>
+        </div>
+        <input type="number" min="0" max="5" step="0.1" class="form-control" id="rating" name="rating"
+          placeholder="請輸入餐廳評分(0.0-5.0) ...">
+      </div>
     </div>
 
+    <div class="form-row mb-3">
+      <div class="col input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">簡介：</span>
+        </div>
+        <textarea class="form-control description" id="description" name="description" placeholder="請輸入餐廳簡介" rows="5"
+          cols="12"></textarea>
 
-    <div class="form-group">
-      <label for="category">類別：</label>
-      <input type="text" class="form-control" id="category" name="category" placeholder="請輸入餐廳類別或依據預設清單來選" required>
-      <div class="valid-feedback">OK!</div>
-      <div class="invalid-feedback">This field is required.</div>
-    </div>
 
-    <div class="form-group">
-      <label for="rating">評分：</label>
-      <input type="text" class="form-control" id="rating" name="rating" placeholder="請輸入你的全名 ..." required>
-      <div class="valid-feedback">OK!</div>
-      <div class="invalid-feedback">This field is required.</div>
+      </div>
     </div>
 
-    <div class="form-group">
-      <label for="description">簡介：</label>
-      <input type="text" class="form-control" id="description" name="description" placeholder="請輸入你的全名 ..." required>
-      <div class="valid-feedback">OK!</div>
-      <div class="invalid-feedback">This field is required.</div>
+    <div class="form-row mb-3">
+      <div class="col input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">圖片連結：</span>
+        </div>
+        <input type="text" class="form-control" id="img-link" name="imglink" placeholder="請輸入餐廳圖片URL ..." required>
+        <div class="valid-feedback">OK!</div>
+        <div class="invalid-feedback">This field is required.</div>
+      </div>
     </div>
-    <div class="form-group">
-      <label for="img-link">圖片連結：</label>
-      <input type="text" class="form-control" id="img-link" name="imglink" placeholder="請輸入你的全名 ..." required>
-      <div class="valid-feedback">OK!</div>
-      <div class="invalid-feedback">This field is required.</div>
-    </div>
+
 
 
     <button type="submit" id="submit">確認提交</button>
