@@ -38,12 +38,23 @@
               </span>
 
             </div>
-          </div>
+            <div class="card-footer d-flex justify-content-end">
+              <a class="btn btn-outline-primary mr-2">Edit</a>
+
+              <a class="btn btn-outline-info mr-2" href="/restaurants/{{ this._id }}">
+                Detail
+              </a>
+              <form action="/restaurants/{{ this._id }}/delete" method="POST" style="display: inline;">
+                <button type="submit" class="btn btn-danger">Delete
         </a>
-        {{/each }}
+        </form>
       </div>
     </div>
+    </a>
+    {{/each }}
   </div>
+</div>
+</div>
 </div>
 {{!-- alert widget --}}
 {{!-- if enableAlert is true, the system render the widget to remind user --}}
