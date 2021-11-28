@@ -21,7 +21,7 @@ const port = 3500
 // set default views path
 app.set('views', process.cwd() + '/views')
 
-// register the engine function as .hbsa
+// register the engine function as .hbs
 app.engine('.hbs', handlebarsInstance.engine)
 
 // set view engine in app to .hbs
