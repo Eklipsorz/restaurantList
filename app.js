@@ -34,7 +34,6 @@ app.use('/', express.static('public'))
 
 // define route for root
 app.get('/', (req, res) => {
-
   // when receiving request, it sets values of two variable to default value
   let restaurants = restaurantList
   let enableAlert = false
@@ -43,10 +42,14 @@ app.get('/', (req, res) => {
   res.render('index', { restaurants, enableAlert })
 })
 
+app.get('/restaurants/new', (req, res) => {
+  console.log('hi')
+  res.render('index')
+})
+
 
 // define route for restaurant detail with id
 app.get('/restaurants/:id', (req, res) => {
-
   // get restaurant by reqId from request object 
   const reqId = req.params.id
   const targetRestaurant = restaurantList.find(restaurant => {
@@ -90,6 +93,7 @@ app.get('/search', (req, res) => {
   // render with index.hbs, search results, keyword, enableAlert which enables alert widget to remind user
   res.render('index', { restaurants, keyword, enableAlert })
 })
+
 
 
 // start to listening at port 3500
