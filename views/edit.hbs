@@ -1,5 +1,5 @@
 <div class="container">
-  <form method="get" action="/restaurants/new" id="add-restaurant-form" novalidate>
+  <form method="post" action="/restaurants/{{targetRestaurant._id}}/edit" id="restaurant-form" novalidate>
 
     <div class="profile mt-5">
       <h1>
@@ -28,8 +28,8 @@
             </label>
           </div>
 
-          <input type="text" class="form-control" id="name_en" name="name_en" value="{{ targetRestaurant.name_en }}"
-            placeholder="請輸入餐廳英文名稱" pattern="[a-zA-Z]{1,}">
+          <input type="text" class="form-control" id="name_en" name="name_en" placeholder="請輸入餐廳英文名稱(可含空白)"
+            pattern="[a-zA-Z ]{1,}" value="{{ targetRestaurant.name_en }}">
           <div class="valid-feedback">輸入正確(可不填寫)</div>
           <div class="invalid-feedback">請輸入餐廳英文名稱</div>
         </div>
@@ -121,6 +121,7 @@
               電話：
             </label>
           </div>
+
           <input type="text" class="form-control" id="phone" name="phone" placeholder="請輸入餐廳電話，比如：02 1234 5678"
             pattern="\d{2} \d{4} \d{4}" value="{{ targetRestaurant.phone }}" required>
           <div class="valid-feedback">輸入正確</div>

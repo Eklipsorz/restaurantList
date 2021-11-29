@@ -1,5 +1,5 @@
 <div class="container">
-  <form method="get" action="/restaurants/new" id="add-restaurant-form" novalidate>
+  <form method="get" action="/restaurants/new" id="restaurant-form" novalidate>
 
     <div class="profile mt-5">
       <h1>
@@ -27,8 +27,8 @@
             </label>
           </div>
 
-          <input type="text" class="form-control" id="name_en" name="name_en" placeholder="請輸入餐廳英文名稱"
-            pattern="[a-zA-Z]{1,}">
+          <input type="text" class="form-control" id="name_en" name="name_en" placeholder="請輸入餐廳英文名稱(可含空白)"
+            pattern="[a-zA-Z ]{1,}">
           <div class="valid-feedback">輸入正確(可不填寫)</div>
           <div class="invalid-feedback">請輸入餐廳英文名稱</div>
         </div>

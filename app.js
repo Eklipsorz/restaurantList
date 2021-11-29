@@ -108,8 +108,21 @@ app.get('/restaurants/:id/edit', (req, res) => {
 })
 
 
+// define route for editing restaurant data 
+app.post('/restaurants/:id/edit', (req, res) => {
+  const reqId = req.params.id
+  const targetRestaurant = req.body
+
+  restaurantModel.findByIdAndUpdate(reqId, targetRestaurant)
+    .lean()
+    .exec()
+    .then(() => res.redirect('/'))
+    .catch(error => console.log(error))
+})
+
 // define route for deleting a restaurant
 app.post('/restaurants/:id/delete', (req, res) => {
+
   console.log(req.body)
 })
 

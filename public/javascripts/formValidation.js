@@ -1,4 +1,4 @@
-const form = document.querySelector('#add-restaurant-form')
+const form = document.querySelector('#restaurant-form')
 const submitButton = document.querySelector('#submit')
 const previewImageButton = document.querySelector('#preview-image-btn')
 
@@ -7,8 +7,10 @@ function onSubmitButtonClicked(event) {
 }
 
 function onFormSubmited(event) {
-  event.preventDefault()
-  event.stopPropagation()
+  if (!form.checkValidity()) {
+    event.preventDefault()
+    event.stopPropagation()
+  }
 }
 
 function onPreviewImageButtonClicked(event) {
