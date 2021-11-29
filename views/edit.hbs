@@ -3,7 +3,7 @@
 
     <div class="profile mt-5">
       <h1>
-        餐廳介紹資料填寫
+        餐廳介紹資料編輯
       </h1>
       <hr />
 
@@ -14,7 +14,8 @@
               名稱：
             </label>
           </div>
-          <input type="text" class="form-control" id="name" name="name" placeholder="請輸入餐廳名稱(中英文皆可)" required>
+          <input type="text" class="form-control" id="name" name="name" value="{{ targetRestaurant.name }}"
+            placeholder="請輸入餐廳名稱(中英文皆可)" required>
           <div class="valid-feedback">輸入正確</div>
           <div class="invalid-feedback">請輸入餐廳名稱(中英文皆可)</div>
         </div>
@@ -27,8 +28,8 @@
             </label>
           </div>
 
-          <input type="text" class="form-control" id="name_en" name="name_en" placeholder="請輸入餐廳英文名稱"
-            pattern="[a-zA-Z]{1,}">
+          <input type="text" class="form-control" id="name_en" name="name_en" value="{{ targetRestaurant.name_en }}"
+            placeholder="請輸入餐廳英文名稱" pattern="[a-zA-Z]{1,}">
           <div class="valid-feedback">輸入正確(可不填寫)</div>
           <div class="invalid-feedback">請輸入餐廳英文名稱</div>
         </div>
@@ -43,7 +44,7 @@
             </label>
           </div>
           <input type="text" class="form-control" list="categories" id="category" name="category"
-            placeholder="請輸入餐廳類別或依據預設清單來選" required>
+            value="{{ targetRestaurant.category }}" placeholder="請輸入餐廳類別或依據預設清單來選" required>
           <datalist id="categories">
             <option>日本料理</option>
             <option>義式餐廳</option>
@@ -63,7 +64,7 @@
             </label>
           </div>
           <input type="number" min="0" max="5" step="0.1" class="form-control" id="rating" name="rating"
-            placeholder="請輸入餐廳評分(0.0-5.0)">
+            placeholder="請輸入餐廳評分(0.0-5.0)" value="{{ targetRestaurant.rating }}">
           <div class="valid-feedback">輸入正確(可不填寫)</div>
           <div class="invalid-feedback">請輸入餐廳類別或依據預設清單來選</div>
         </div>
@@ -77,8 +78,8 @@
               簡介：
             </label>
           </div>
-          <textarea class="form-control description" id="description" name="description" placeholder="請輸入餐廳簡介" rows="5"
-            cols="12" required></textarea>
+          <textarea class="form-control description" id="description" name="description" rows="5" cols="12"
+            placeholder="請輸入餐廳簡介" required>{{ targetRestaurant.description }}</textarea>
           <div class="valid-feedback">輸入正確</div>
           <div class="invalid-feedback">請輸入餐廳簡介</div>
 
@@ -92,7 +93,8 @@
               圖片連結：
             </label>
           </div>
-          <input type="url" class="form-control" id="image" name="image" placeholder="請輸入餐廳圖片URL" required>
+          <input type="url" class="form-control" id="image" name="image" placeholder="請輸入餐廳圖片URL"
+            value="{{ targetRestaurant.image }}" required>
           <div class="input-group-append">
             <!-- Dialog Trigger -->
             <button class="btn btn-secondary" data-fancybox="dialog" data-src="#dialog-content"
@@ -108,7 +110,7 @@
 
     <div class="contact mt-5">
       <h1>
-        地點與聯繫方式填寫
+        地點與聯繫方式編輯
       </h1>
       <hr />
 
@@ -120,7 +122,7 @@
             </label>
           </div>
           <input type="text" class="form-control" id="phone" name="phone" placeholder="請輸入餐廳電話，比如：02 1234 5678"
-            pattern="\d{2} \d{4} \d{4}" required>
+            pattern="\d{2} \d{4} \d{4}" value="{{ targetRestaurant.phone }}" required>
           <div class="valid-feedback">輸入正確</div>
           <div class="invalid-feedback">請輸入餐廳電話，比如：02 1234 5678</div>
         </div>
@@ -133,7 +135,8 @@
               地址：
             </label>
           </div>
-          <input type="text" class="form-control" id="location" name="location" placeholder="請輸入餐廳地址" required>
+          <input type="text" class="form-control" id="location" name="location" placeholder="請輸入餐廳地址"
+            value="{{ targetRestaurant.location }}" required>
           <div class="valid-feedback">輸入正確</div>
           <div class="invalid-feedback">請輸入餐廳地址</div>
         </div>
@@ -147,7 +150,8 @@
             </label>
           </div>
           <input type="url" class="form-control" id="google_map" name="google_map"
-            placeholder="請輸入餐廳在Google Map所在連結，比如https://goo.gl/maps/bnZKC2YjYZp">
+            placeholder="請輸入餐廳在Google Map所在連結，比如https://goo.gl/maps/bnZKC2YjYZp"
+            value="{{ targetRestaurant.google_map }}">
           <div class="valid-feedback">輸入正確(可不填寫)</div>
           <div class="invalid-feedback">請輸入餐廳在Google Map所在連結</div>
         </div>

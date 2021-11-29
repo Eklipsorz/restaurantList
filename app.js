@@ -95,6 +95,26 @@ app.get('/restaurants/:id', (req, res) => {
 
 })
 
+// define route for showing edit page
+app.get('/restaurants/:id/edit', (req, res) => {
+
+  const reqId = req.params.id
+
+  restaurantModel.findById(reqId)
+    .lean()
+    .exec()
+    .then((targetRestaurant) => res.render('edit', { targetRestaurant }))
+    .catch(error => console.log(error))
+})
+
+
+// define route for deleting a restaurant
+app.post('/restaurants/:id/delete', (req, res) => {
+  console.log(req.body)
+})
+
+
+
 // define route for searching
 app.get('/search', (req, res) => {
 
@@ -128,7 +148,6 @@ app.get('/search', (req, res) => {
   // render with index.hbs, search results, keyword, enableAlert which enables alert widget to remind user
   res.render('index', { restaurants, keyword, enableAlert })
 })
-
 
 
 // start to listening at port 3500

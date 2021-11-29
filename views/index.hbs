@@ -39,22 +39,23 @@
 
             </div>
             <div class="card-footer d-flex justify-content-end">
-              <a class="btn btn-outline-primary mr-2">Edit</a>
+              <a class="btn btn-outline-primary mr-2" href="/restaurants/{{ this._id }}/edit">Edit</a>
 
               <a class="btn btn-outline-info mr-2" href="/restaurants/{{ this._id }}">
                 Detail
               </a>
-              <form action="/restaurants/{{ this._id }}/delete" method="POST" style="display: inline;">
+              <form action="/restaurants/{{ this._id }}/delete" method="post" style="display: inline;">
+                <input type="hidden" name="_method" value="put" />
                 <button type="submit" class="btn btn-danger">Delete
+                </button>
+              </form>
+            </div>
+          </div>
         </a>
-        </form>
+        {{/each }}
       </div>
     </div>
-    </a>
-    {{/each }}
   </div>
-</div>
-</div>
 </div>
 {{!-- alert widget --}}
 {{!-- if enableAlert is true, the system render the widget to remind user --}}
