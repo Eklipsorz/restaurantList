@@ -45,7 +45,7 @@
                 Detail
               </a>
               <form action="/restaurants/{{ this._id }}/delete" class="delete-form" method="post"
-                style="display: inline;">
+                data-name="{{this.name}}" style="display: inline;">
                 <button type="submit" class="btn btn-danger">Delete</button>
               </form>
             </div>
@@ -56,14 +56,9 @@
     </div>
   </div>
 </div>
-{{!-- alert widget --}}
-{{!-- if enableAlert is true, the system render the widget to remind user --}}
-{{!-- {{#if enableAlert}} --}}
-
 
 
 {{{alertModel enableAlert message }}}
 
 
 <script src="/javascripts/restaurantIndex.js"></script>
-{{!-- {{/if}} --}}

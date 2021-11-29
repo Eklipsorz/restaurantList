@@ -1,13 +1,12 @@
-
-// define express server, handlebars, restaurant data, express app
+// define express server, handlebars, restaurant data, 
+// mongoose connection, express app
 const express = require('express')
 const handlebarsModule = require('express-handlebars')
 const mongoose = require('mongoose')
 const restaurantModel = require('./models/restaurantModel')
-const db = require('./config/connectMongoDB')
-const Swal = require('sweetalert2')
 
-const restaurantList = require('./restaurant.json').results
+// store mongoose settingS and it's connection
+const db = require('./config/connectMongoDB')
 
 
 const app = express()
@@ -20,13 +19,18 @@ const handlebarsInstance = handlebarsModule.create({
   defaultLayout: "main",
   // set template file extension to .hbs
   extname: ".hbs",
-
+  // add a helper for showing alert model
   helpers: {
+    // if enableAlert is true, it show alert model according to message.
+    // if enableAlert is false, it show nothing.
     alertModel: function (enableAlert, message) {
+
+
       if (!enableAlert) {
         return ''
       }
 
+      // define alert model
       return `
       <script>
         Swal.fire({
@@ -43,7 +47,7 @@ const handlebarsInstance = handlebarsModule.create({
 
 
 // define port
-const port = 3600
+const port = 3500
 
 
 // set default views path
@@ -62,12 +66,18 @@ app.use('/', express.static('public'))
 // set body parser for post message
 app.use('/', express.urlencoded({ extended: true }))
 
-
+// each query is not promise, so it need to add query.exec() or query.then()
+// however, query.then() is also not really then in promise and each then()
+// execute the query. Therefore, I chose query.exec() to transfer query to 
+// a real promise and use it's then and catch syntax.
 
 // define route for root
 app.get('/', (req, res) => {
 
+  // turn off alert model
   let enableAlert = false
+
+  // find all restaurants and render
   restaurantModel.find({})
     .lean()
     .exec()
@@ -75,7 +85,7 @@ app.get('/', (req, res) => {
     .catch(error => console.log(error))
 })
 
-// define route for showing form page
+// define route for creation page
 app.get('/restaurants/new', (req, res) => {
   res.render('new')
 })
@@ -84,8 +94,8 @@ app.get('/restaurants/new', (req, res) => {
 // define route for adding restaurant
 app.post('/restaurants', (req, res) => {
 
+  // add a restaurant according to form data on creation page
   const newRestaurant = new restaurantModel(req.body)
-
   newRestaurant.save()
     .then(() => res.redirect('/'))
     .catch((error) => console.log(error))
@@ -98,6 +108,7 @@ app.get('/restaurants/:id', (req, res) => {
   // get restaurant by reqId from request object 
   const reqId = req.params.id
 
+  // find the restaurant by id and render
   restaurantModel.findById(reqId)
     .lean()
     .exec()
@@ -107,11 +118,12 @@ app.get('/restaurants/:id', (req, res) => {
 
 })
 
-// define route for showing edit page
+// define route for edit page
 app.get('/restaurants/:id/edit', (req, res) => {
 
   const reqId = req.params.id
 
+  // find the restaurant by id and render a edit page for it
   restaurantModel.findById(reqId)
     .lean()
     .exec()
@@ -120,11 +132,12 @@ app.get('/restaurants/:id/edit', (req, res) => {
 })
 
 
-// define route for editing restaurant data 
+// define route for editing restaurant data on edit page
 app.post('/restaurants/:id/edit', (req, res) => {
   const reqId = req.params.id
   const targetRestaurant = req.body
 
+  // find the restaurant by id and update it with the form data on edit page
   restaurantModel.findByIdAndUpdate(reqId, targetRestaurant)
     .exec()
     .then(() => res.redirect('/'))
@@ -132,10 +145,11 @@ app.post('/restaurants/:id/edit', (req, res) => {
 })
 
 // define route for deleting a restaurant
-
 app.post('/restaurants/:id/delete', (req, res) => {
 
   const reqId = req.params.id
+
+  // find the restaurant by id and delete it
   restaurantModel.findByIdAndRemove(reqId)
     .exec()
     .then(() => res.redirect('/'))
@@ -147,15 +161,20 @@ app.post('/restaurants/:id/delete', (req, res) => {
 // define route for searching
 app.get('/search', (req, res) => {
 
-  // fetch keyword and trim additional spaces
+  // get origin keyword for showing message on the alert model
   const originKeyword = req.query.keyword
+  // fetch keyword and trim additional spaces
   const keyword = originKeyword.trim().toLowerCase()
 
+
+  // if user input nothing
   if (keyword === '') {
     res.redirect('/')
     return
   }
 
+  // if user input something, it try to find the restaurant with three fields
+  // (name, name_en, category) and get the search result (called filteredRestaurants)
   restaurantModel.find({
     $or: [
       { name: { $regex: keyword, $options: 'i' } },
@@ -166,30 +185,23 @@ app.get('/search', (req, res) => {
     .lean()
     .exec()
     .then(filteredRestaurants => {
+      // if filteredRestaurants is empty, the system will render to origin view with a alert widget
+      // if filteredRestaurants is not empty, the system will render to new view via search result
       let restaurants = filteredRestaurants.length ? filteredRestaurants : restaurantList
+      // turn on alert model
       let enableAlert = filteredRestaurants.length ? false : true
+      // define the message on alert model
       let message = {
         title: '搜尋失敗',
         text: `找不到名為 ${originKeyword} 的餐廳，請更換名稱`
       }
-
+      // render a page according search results
       res.render('index', { restaurants, enableAlert, message })
     })
     .catch(error => console.log(error))
 
 
 
-  // find a set of restaurants by keyword and put them into filteredRestaurants
-  // filteredRestaurants represents search result
-  // const filteredRestaurants = restaurantList.filter(restaurant => {
-  //   return restaurant.name.toLowerCase().includes(keyword.toLowerCase()) ||
-  //     restaurant.category.toLowerCase().includes(keyword.toLowerCase())
-  // })
-
-
-  // if filteredRestaurants is empty, the system will render to origin view with a alert widget
-  // if filteredRestaurants is not empty, the system will render to new view via search result
-  // let restaurants = filteredRestaurants.length ? filteredRestaurants : restaurantList
 
   // enable alert widget to remind user.
   // true means a alert tell us the system find nothing by keyword.
