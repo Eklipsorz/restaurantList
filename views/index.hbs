@@ -57,20 +57,13 @@
 </div>
 {{!-- alert widget --}}
 {{!-- if enableAlert is true, the system render the widget to remind user --}}
-{{#if enableAlert}}
+{{!-- {{#if enableAlert}} --}}
 <script>
 
   // Swal is sweetalert2 object and fire method which render a modal on index
   // sweetalert2 is third-party module.
-  Swal.fire({
-    // modal title
-    title: '搜尋失敗',
-    // modal content
-    text: '搜尋名為 {{ keyword }} 的餐廳，請更換名稱',
-    // modal icon
-    icon: 'error',
-    // text on modal button 
-    confirmButtonText: '確認'
-  })
+  { { { alertModel enableAlert message } } }
 </script>
-{{/if}}
+
+<script src="/javascripts/restaurantList.js"></script>
+{{!-- {{/if}} --}}
