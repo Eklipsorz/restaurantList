@@ -3,8 +3,11 @@ A web application which provides restaurant information to help most people dete
 
 
 ## Screentshots
+### Index Page
 ![Index Page](https://res.cloudinary.com/dqfxgtyoi/image/upload/v1638205850/github/Index_CRUD_nbaerw.png)
+### Show Detail Page
 ![Show Detail Page](https://res.cloudinary.com/dqfxgtyoi/image/upload/v1638205849/github/showDetail_CRUD_icx0tk.png)
+### Creation Page
 ![Creation Page](https://res.cloudinary.com/dqfxgtyoi/image/upload/v1638205837/github/creationPage_CRUD_yu609g.png)
 ## Features
 1. View all restaurant info.
