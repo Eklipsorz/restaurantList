@@ -132,7 +132,6 @@ app.post('/restaurants/:id/edit', (req, res) => {
   const targetRestaurant = req.body
 
   restaurantModel.findByIdAndUpdate(reqId, targetRestaurant)
-    .lean()
     .exec()
     .then(() => res.redirect('/'))
     .catch(error => console.log(error))
@@ -141,7 +140,11 @@ app.post('/restaurants/:id/edit', (req, res) => {
 // define route for deleting a restaurant
 app.post('/restaurants/:id/delete', (req, res) => {
 
-  console.log(req.body)
+  const reqId = req.params.id
+  restaurantModel.findByIdAndRemove(reqId)
+    .exec()
+    .then(() => res.redirect('/'))
+    .catch((error) => console.log(error))
 })
 
 

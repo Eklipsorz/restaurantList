@@ -21,16 +21,14 @@ db.once('open', async () => {
 
     // each task just call create command one by one and the execution of some 
     // commands might not be ended. It need to make them be synchronous task.
+    const {
+      name, category, description, image,
+      phone, location, name_en, rating, google_map
+    } = defaultData[index]
+
     await restaurantModel.create({
-      name: defaultData[index].name,
-      name_en: defaultData[index].name_en,
-      category: defaultData[index].category,
-      rating: defaultData[index].rating,
-      description: defaultData[index].description,
-      image: defaultData[index].image,
-      phone: defaultData[index].phone,
-      location: defaultData[index].location,
-      google_map: defaultData[index].google_map
+      name, name_en, category, rating,
+      description, image, phone, location, google_map
     })
 
   }
