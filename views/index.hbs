@@ -44,7 +44,8 @@
               <a class="btn btn-outline-info mr-2" href="/restaurants/{{ this._id }}">
                 Detail
               </a>
-              <form action="/restaurants/{{ this._id }}/delete" method="post" style="display: inline;">
+              <form action="/restaurants/{{ this._id }}/delete" class="delete-form" method="post"
+                style="display: inline;">
                 <button type="submit" class="btn btn-danger">Delete</button>
               </form>
             </div>
@@ -58,12 +59,11 @@
 {{!-- alert widget --}}
 {{!-- if enableAlert is true, the system render the widget to remind user --}}
 {{!-- {{#if enableAlert}} --}}
-<script>
 
-  // Swal is sweetalert2 object and fire method which render a modal on index
-  // sweetalert2 is third-party module.
-  { { { alertModel enableAlert message } } }
-</script>
 
-<script src="/javascripts/restaurantList.js"></script>
+
+{{{alertModel enableAlert message }}}
+
+
+<script src="/javascripts/restaurantIndex.js"></script>
 {{!-- {{/if}} --}}

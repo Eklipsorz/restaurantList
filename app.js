@@ -5,6 +5,7 @@ const handlebarsModule = require('express-handlebars')
 const mongoose = require('mongoose')
 const restaurantModel = require('./models/restaurantModel')
 const db = require('./config/connectMongoDB')
+const Swal = require('sweetalert2')
 
 const restaurantList = require('./restaurant.json').results
 
@@ -27,12 +28,14 @@ const handlebarsInstance = handlebarsModule.create({
       }
 
       return `
+      <script>
         Swal.fire({
             title:"${message.title}",
             text:"${message.text}",
             icon:"error",
             confirmButtonText:"確認",
         })
+      </script>
       `
     }
   }
@@ -129,6 +132,7 @@ app.post('/restaurants/:id/edit', (req, res) => {
 })
 
 // define route for deleting a restaurant
+
 app.post('/restaurants/:id/delete', (req, res) => {
 
   const reqId = req.params.id

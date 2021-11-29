@@ -2,6 +2,12 @@ const form = document.querySelector('#restaurant-form')
 const submitButton = document.querySelector('#submit')
 const previewImageButton = document.querySelector('#preview-image-btn')
 
+
+
+
+
+
+
 function onSubmitButtonClicked(event) {
   form.classList.add('was-validated')
 }
@@ -37,9 +43,13 @@ function onPreviewImageButtonClicked(event) {
 }
 
 
-
-form.addEventListener('submit', onFormSubmited)
-submitButton.addEventListener('click', onSubmitButtonClicked)
-previewImageButton.addEventListener('click', onPreviewImageButtonClicked)
-
+if (form) {
+  form.addEventListener('submit', onFormSubmited)
+}
+if (submitButton) {
+  submitButton.addEventListener('click', onSubmitButtonClicked)
+}
+if (previewImageButton) {
+  previewImageButton.addEventListener('click', onPreviewImageButtonClicked)
+}
 
