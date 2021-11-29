@@ -4,6 +4,7 @@ const express = require('express')
 const handlebarsModule = require('express-handlebars')
 const mongoose = require('mongoose')
 const restaurantModel = require('./models/restaurantModel')
+const db = require('./config/connectMongoDB')
 // 
 const restaurantList = require('./restaurant.json').results
 const app = express()
@@ -19,11 +20,7 @@ const handlebarsInstance = handlebarsModule.create({
 })
 
 // define port
-const port = 3500
-
-// define setting of database
-const dbPort = 27017
-const dbName = 'restaurantList'
+const port = 3600
 
 
 // set default views path
@@ -42,21 +39,16 @@ app.use('/', express.static('public'))
 // set body parser for post message
 app.use('/', express.urlencoded({ extended: true }))
 
-mongoose.connect(`mongodb://localhost:${dbPort}/${dbName}`)
-const db = mongoose.connection
+// mongoose.connect(`mongodb://localhost:${dbPort}/${dbName}`)
+// const db = mongoose.connection
 
-db.on('error', () => {
-  console.log('mongodb error!')
-})
+// db.on('error', () => {
+//   console.log('mongodb error!')
+// })
 
-db.once('open', async () => {
-  console.log('mongodb connected!')
-})
-
-
-
-
-
+// db.once('open', async () => {
+//   console.log('mongodb connected!')
+// })
 
 
 // define route for root
@@ -79,21 +71,11 @@ app.get('/restaurants/new', (req, res) => {
 // define route for adding restaurant
 app.post('/restaurants', (req, res) => {
 
-  const {
-    name, category, description, image,
-    phone, location, name_en, rating, google_map
-  } = req.body
-
-
-  const newRestaurant = new restaurantModel({
-    name, category, description, image,
-    phone, location, name_en, rating, google_map
-  })
+  const newRestaurant = new restaurantModel(req.body)
 
   newRestaurant.save()
     .then(() => res.redirect('/'))
     .catch((error) => console.log(error))
-
 
 })
 
@@ -102,7 +84,6 @@ app.post('/restaurants', (req, res) => {
 app.get('/restaurants/:id', (req, res) => {
   // get restaurant by reqId from request object 
   const reqId = req.params.id
-
 
   restaurantModel.findById(reqId)
     .lean()
@@ -188,3 +169,4 @@ app.get('/search', (req, res) => {
 app.listen(port, () => {
   console.log(`The express server is running at port ${port}`)
 })
+
