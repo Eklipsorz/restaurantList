@@ -9,6 +9,9 @@ const restaurantModel = require('./models/restaurantModel')
 const db = require('./config/connectMongoDB')
 
 
+// define a restaurant list
+let restaurantList = ''
+
 const app = express()
 
 // define engine setting by creating handlebars instance
@@ -68,8 +71,9 @@ app.use('/', express.urlencoded({ extended: true }))
 
 // each query is not promise, so it need to add query.exec() or query.then()
 // however, query.then() is also not really then in promise and each then()
-// execute the query. Therefore, I chose query.exec() to transfer query to 
-// a real promise and use it's then and catch syntax.
+// execute the query. These can execute the query multiple times. Therefore, 
+// I chose query.exec() to transfer query to a real promise and use it's 
+// then and catch syntax.
 
 // define route for root
 app.get('/', (req, res) => {
@@ -81,7 +85,10 @@ app.get('/', (req, res) => {
   restaurantModel.find({})
     .lean()
     .exec()
-    .then(restaurants => res.render('index', { restaurants, enableAlert }))
+    .then(restaurants => {
+      restaurantList = restaurants
+      res.render('index', { restaurants, enableAlert })
+    })
     .catch(error => console.log(error))
 })
 
@@ -178,7 +185,6 @@ app.get('/search', (req, res) => {
   restaurantModel.find({
     $or: [
       { name: { $regex: keyword, $options: 'i' } },
-      { name_en: { $regex: keyword, $options: 'i' } },
       { category: { $regex: keyword, $options: 'i' } }
     ]
   })
@@ -200,17 +206,6 @@ app.get('/search', (req, res) => {
     })
     .catch(error => console.log(error))
 
-
-
-
-  // enable alert widget to remind user.
-  // true means a alert tell us the system find nothing by keyword.
-  // false means nothing happened .
-  // let enableAlert = filteredRestaurants.length ? false : true
-
-
-  // render with index.hbs, search results, keyword, enableAlert which enables alert widget to remind user
-  // res.render('index', { restaurants, keyword, enableAlert })
 })
 
 
