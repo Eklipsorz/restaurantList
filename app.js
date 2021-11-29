@@ -70,13 +70,31 @@ app.get('/', (req, res) => {
     .catch(error => console.log(error))
 })
 
-// define route for adding restaurant
+// define route for showing form page
 app.get('/restaurants/new', (req, res) => {
   res.render('new')
 })
 
+
+// define route for adding restaurant
 app.post('/restaurants', (req, res) => {
-  console.log("received")
+
+  const {
+    name, category, description, image,
+    phone, location, name_en, rating, google_map
+  } = req.body
+
+
+  const newRestaurant = new restaurantModel({
+    name, category, description, image,
+    phone, location, name_en, rating, google_map
+  })
+
+  newRestaurant.save()
+    .then(() => res.redirect('/'))
+    .catch((error) => console.log(error))
+
+
 })
 
 
