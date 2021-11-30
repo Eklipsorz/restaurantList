@@ -28,10 +28,10 @@
             </label>
           </div>
 
-          <input type="text" class="form-control" id="name_en" name="name_en" placeholder="請輸入餐廳英文名稱(可含空白)"
-            pattern="[a-zA-Z ]{1,}" value="{{ targetRestaurant.name_en }}">
+          <input type="text" class="form-control" id="name_en" name="name_en" placeholder="請輸入餐廳英文名稱(可含空白和&)"
+            pattern="[a-zA-Z &]{1,}" value="{{ targetRestaurant.name_en }}">
           <div class="valid-feedback">輸入正確(可不填寫)</div>
-          <div class="invalid-feedback">請輸入餐廳英文名稱</div>
+          <div class="invalid-feedback">請輸入餐廳英文名稱(可含空白和&amp;)</div>
         </div>
       </div>
 
@@ -66,7 +66,7 @@
           <input type="number" min="0" max="5" step="0.1" class="form-control" id="rating" name="rating"
             placeholder="請輸入餐廳評分(0.0-5.0)" value="{{ targetRestaurant.rating }}">
           <div class="valid-feedback">輸入正確(可不填寫)</div>
-          <div class="invalid-feedback">請輸入餐廳類別或依據預設清單來選</div>
+          <div class="invalid-feedback">請輸入餐廳評分(0.0-5.0)</div>
         </div>
 
       </div>
@@ -102,7 +102,7 @@
 
           </div>
           <div class="valid-feedback">輸入正確</div>
-          <div class="invalid-feedback">請輸入餐廳圖片URL</div>
+          <div class="invalid-feedback">請輸入餐廳圖片連結URL</div>
         </div>
       </div>
 
@@ -154,7 +154,7 @@
             placeholder="請輸入餐廳在Google Map所在連結，比如https://goo.gl/maps/bnZKC2YjYZp"
             value="{{ targetRestaurant.google_map }}">
           <div class="valid-feedback">輸入正確(可不填寫)</div>
-          <div class="invalid-feedback">請輸入餐廳在Google Map所在連結</div>
+          <div class="invalid-feedback">請輸入餐廳在Google Map上的位址連結URL</div>
         </div>
 
       </div>
