@@ -44,7 +44,7 @@ router.get('/search', (req, res) => {
   // get sort from search bar
   const sort = req.query.sort
   const sortObject = {}
-
+  let locale = 'en'
   // determine how to sort
   switch (sort) {
     case 'a-to-z':
@@ -55,18 +55,23 @@ router.get('/search', (req, res) => {
       break
     case 'few-to-many':
       sortObject.name = 'asc'
+      locale = 'zh_Hant'
       break
     case 'many-to-few':
       sortObject.name = 'desc'
+      locale = 'zh_Hant'
       break
     case 'category':
       sortObject.category = 'asc'
+      locale = 'zh_Hant'
       break
     case 'location':
       sortObject.location = 'asc'
+      locale = 'zh_Hant'
       break
   }
 
+  console.log(sortObject)
   // if user input something, it try to find the restaurant with three fields
   // (name, name_en, category) and get the search result (called filteredRestaurants)
   restaurantModel.find({
@@ -76,10 +81,11 @@ router.get('/search', (req, res) => {
     ]
   })
     .lean()
+    .collation({ locale })
     .sort(sortObject)
     .exec()
     .then(filteredRestaurants => {
-
+      console.log(filteredRestaurants)
       // if filteredRestaurants is empty, the system will render to origin view with a alert widget
       // if filteredRestaurants is not empty, the system will render to new view via search result
       let restaurants = filteredRestaurants.length ? filteredRestaurants : restaurantList
