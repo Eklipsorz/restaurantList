@@ -5,8 +5,13 @@ const handlebarsModule = require('express-handlebars')
 const mongoose = require('mongoose')
 const restaurantModel = require('./models/restaurantModel')
 
+const methodOverride = require('method-override')
 // store mongoose settingS and it's connection
 const db = require('./config/connectMongoDB')
+
+// define application's router 
+const router = require('./routes')
+
 
 
 // define a restaurant list
@@ -68,6 +73,9 @@ app.use('/', express.static('public'))
 
 // set body parser for post message
 app.use('/', express.urlencoded({ extended: true }))
+
+app.use('/', methodOverride('_method'))
+
 
 // each query is not promise, so it need to add query.exec() or query.then()
 // however, query.then() is also not really then in promise and each then()
@@ -140,7 +148,8 @@ app.get('/restaurants/:id/edit', (req, res) => {
 
 
 // define route for editing restaurant data on edit page
-app.post('/restaurants/:id/edit', (req, res) => {
+app.put('/restaurants/:id', (req, res) => {
+  console.log('this is update')
   const reqId = req.params.id
   const targetRestaurant = req.body
 
@@ -152,8 +161,9 @@ app.post('/restaurants/:id/edit', (req, res) => {
 })
 
 // define route for deleting a restaurant
-app.post('/restaurants/:id/delete', (req, res) => {
+app.delete('/restaurants/:id', (req, res) => {
 
+  console.log('this is delete')
   const reqId = req.params.id
 
   // find the restaurant by id and delete it

@@ -44,7 +44,7 @@
               <a class="btn btn-outline-info mr-2" href="/restaurants/{{ this._id }}">
                 Detail
               </a>
-              <form action="/restaurants/{{ this._id }}/delete" class="delete-form" method="post"
+              <form action="/restaurants/{{ this._id }}?_method=DELETE" class="delete-form" method="post"
                 data-name="{{this.name}}" style="display: inline;">
                 <button type="submit" class="btn btn-danger">Delete</button>
               </form>
