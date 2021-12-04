@@ -49,6 +49,12 @@ const handlebarsInstance = handlebarsModule.create({
         })
       </script>
       `
+    },
+    displayDefaultOption: function (sortObject, optionName) {
+      if (!sortObject) {
+        sortObject['name_en'] = 1
+      }
+      return !sortObject[optionName] ? '' : 'selected'
     }
   }
 })
@@ -77,12 +83,6 @@ app.use('/', express.urlencoded({ extended: true }))
 app.use('/', methodOverride('_method'))
 
 app.use('/', router)
-// each query is not promise, so it need to add query.exec() or query.then()
-// however, query.then() is also not really then in promise and each then()
-// execute the query. These can execute the query multiple times. Therefore, 
-// I chose query.exec() to transfer query to a real promise and use it's 
-// then and catch syntax.
-
 
 // start to listening at port 3500
 app.listen(port, () => {
