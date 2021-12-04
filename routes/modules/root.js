@@ -7,8 +7,11 @@ const router = express.Router()
 // define route for root
 router.get('/', (req, res) => {
 
-  // turn off alert model
-  let enableAlert = false
+  // define a object which stores rendering settings 
+  let ContentSetting = {
+    // turn off alert model
+    enableAlert: false
+  }
 
   // find all restaurants and render
   restaurantModel.find({})
@@ -16,7 +19,8 @@ router.get('/', (req, res) => {
     .exec()
     .then(restaurants => {
       restaurantList = restaurants
-      res.render('index', { restaurants, enableAlert })
+      // render a page according via data and setting object
+      res.render('index', { restaurants, ContentSetting })
     })
     .catch(error => console.log(error))
 })
@@ -37,23 +41,32 @@ router.get('/search', (req, res) => {
   // fetch keyword and trim additional spaces
   const keyword = originKeyword.trim().toLowerCase()
 
+  // get sort from search bar
+  const sort = req.query.sort
   const sortObject = {}
 
-  switch (req.query.sort) {
+  // determine how to sort
+  switch (sort) {
     case 'a-to-z':
-      sortObject.name_en = 1
+      sortObject.name_en = 'asc'
       break
     case 'z-to-a':
-      sortObject.name_en = -1
+      sortObject.name_en = 'desc'
+      break
+    case 'few-to-many':
+      sortObject.name = 'asc'
+      break
+    case 'many-to-few':
+      sortObject.name = 'desc'
       break
     case 'category':
-      sortObject.category = 1
+      sortObject.category = 'asc'
       break
     case 'location':
-      sortObject.location = 1
+      sortObject.location = 'asc'
       break
   }
-  console.log(sortObject)
+
   // if user input something, it try to find the restaurant with three fields
   // (name, name_en, category) and get the search result (called filteredRestaurants)
   restaurantModel.find({
@@ -66,19 +79,28 @@ router.get('/search', (req, res) => {
     .sort(sortObject)
     .exec()
     .then(filteredRestaurants => {
-      console.log(filteredRestaurants)
+
       // if filteredRestaurants is empty, the system will render to origin view with a alert widget
       // if filteredRestaurants is not empty, the system will render to new view via search result
       let restaurants = filteredRestaurants.length ? filteredRestaurants : restaurantList
-      // turn on alert model
-      let enableAlert = filteredRestaurants.length ? false : true
-      // define the message on alert model
-      let message = {
-        title: '搜尋失敗',
-        text: `找不到名為 ${originKeyword} 的餐廳，請更換名稱`
+
+      // define a object which stores rendering settings for search result
+      let ContentSetting = {
+        // turn on alert model
+        enableAlert: filteredRestaurants.length ? false : true,
+        // define the message on alert model
+        message: {
+          title: '搜尋失敗',
+          text: `找不到名為 ${originKeyword} 的餐廳，請更換名稱`
+        },
+        // search keyword
+        keyword: originKeyword,
+        // define sort for searching 
+        sort
       }
-      // render a page according search results
-      res.render('index', { restaurants, enableAlert, message, originKeyword })
+
+      // render a page according via data and setting object
+      res.render('index', { restaurants, ContentSetting })
     })
     .catch(error => console.log(error))
 
