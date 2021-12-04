@@ -14,23 +14,25 @@
             </div>
             <div class="input-group col">
               <select class="form-control" id="sort" name="sort">
-                <option value="a-to-z" {{displayDefaultOption ContentSetting.sort "a-to-z" }}>
-                  按英文名稱排序：A 到 Z
+                <option value="name-asc-en" {{displayDefaultOption ContentSetting.sort "name-asc-en" }}>
+                  按字母排序：A 到 Z
                 </option>
-                <option value="z-to-a" {{displayDefaultOption ContentSetting.sort "z-to-a" }}>
-                  按英文名稱排序：Z 到 A
+                <option value="name-desc-en" {{displayDefaultOption ContentSetting.sort "name-desc-en" }}>
+                  按字母排序：Z 到 A
                 </option>
-                <option value="few-to-many" {{displayDefaultOption ContentSetting.sort "few-to-many" }}>
+                <option value="name-asc-zh_Hant" {{displayDefaultOption ContentSetting.sort "name-asc-zh_Hant" }}>
                   按中文筆劃排序：少 到 多
                 </option>
-                <option value="many-to-few" {{displayDefaultOption ContentSetting.sort "many-to-few" }}>
+                <option value="name-desc-zh_Hant" {{displayDefaultOption ContentSetting.sort "name-desc-zh_Hant" }}>
                   按中文筆劃排序：多 到 少
                 </option>
-                <option value="category" {{displayDefaultOption ContentSetting.sort "category" }}>
-                  按中文來排序：類別
+                <option value="category-asc-zh_Hant" {{displayDefaultOption ContentSetting.sort "category-asc-zh_Hant"
+                  }}>
+                  按中文筆劃來排序：類別
                 </option>
-                <option value="location" {{displayDefaultOption ContentSetting.sort "location" }}>
-                  按中文來排序：地區
+                <option value="location-asc-zh_Hant" {{displayDefaultOption ContentSetting.sort "location-asc-zh_Hant"
+                  }}>
+                  按中文筆劃來排序：地區
                 </option>
               </select>
             </div>
