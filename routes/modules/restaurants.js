@@ -33,7 +33,7 @@ router.get('/:id/edit', (req, res) => {
     .lean()
     .exec()
     .then((targetRestaurant) => res.render('edit', { targetRestaurant }))
-    .catch(error => console.log(error))
+    .catch(() => res.render('404'))
 })
 
 
@@ -64,7 +64,7 @@ router.get('/:id', (req, res) => {
     .lean()
     .exec()
     .then((targetRestaurant) => res.render('show', { targetRestaurant }))
-    .catch(error => console.log(error))
+    .catch(() => res.render('404'))
 
 
 })
