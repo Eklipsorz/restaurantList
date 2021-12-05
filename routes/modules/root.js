@@ -1,85 +1,81 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const restaurantModel = require('../../models/restaurantModel')
-
+let restaurantList = []
 const router = express.Router()
 
-// define route for root
-router.get('/', (req, res) => {
 
-  // define a object which stores rendering settings 
-  let ContentSetting = {
-    // turn off alert model
-    enableAlert: false
-  }
-
-  // find all restaurants and render
-  restaurantModel.find({})
-    .lean()
-    .exec()
-    .then(restaurants => {
-      restaurantList = restaurants
-      // render a page according via data and setting object
-      res.render('index', { restaurants, ContentSetting })
-    })
-    .catch(error => console.log(error))
-})
+router.get(/^\/(search|)/, (req, res, next) => {
 
 
-
-// define route for searching
-router.get('/search', (req, res) => {
-
-  // if user input nothing
-  if (req.query.keyword === '') {
-    res.redirect('/')
-    return
-  }
-
-  // get origin keyword for showing message on the alert model
-  const originKeyword = req.query.keyword
-  // fetch keyword and trim additional spaces
-  const keyword = originKeyword.trim().toLowerCase()
-
-  // get sort from search bar
-  const sort = req.query.sort
+  let where = {}
   const sortObject = {}
+  let sort = ''
+  let originKeyword = ''
+  let keyword = ''
 
-  // determine how to sort
-  let [sortName, sortValue, locale] = sort.split('-')
-  sortObject[sortName] = sortValue
 
-  // if user input something, it try to find the restaurant with three fields
-  // (name, name_en, category) and get the search result (called filteredRestaurants)
-  restaurantModel.find({
-    $or: [
-      { name: { $regex: keyword, $options: 'i' } },
-      { category: { $regex: keyword, $options: 'i' } }
-    ]
-  })
+  if (originKeyword = req.query.keyword) {
+
+    // fetch keyword and trim additional spaces
+    keyword = originKeyword.trim().toLowerCase()
+
+    if (keyword === '') {
+      res.redirect('/')
+      return
+    }
+    // get sort from search bar
+    sort = req.query.sort
+
+
+    // determine how to sort
+    let [sortName, sortValue, locale] = sort.split('-')
+    sortObject[sortName] = sortValue
+
+    where = {
+      $or: [
+        { name: { $regex: keyword, $options: 'i' } },
+        { category: { $regex: keyword, $options: 'i' } }
+      ]
+    }
+  }
+
+  restaurantModel.find(where)
     .lean()
-    .collation({ locale })
+    .collation({
+      locale: 'en'
+    })
     .sort(sortObject)
     .exec()
-    .then(filteredRestaurants => {
-      // if filteredRestaurants is empty, the system will render to origin view with a alert widget
-      // if filteredRestaurants is not empty, the system will render to new view via search result
-      let restaurants = filteredRestaurants.length ? filteredRestaurants : restaurantList
+    .then(restaurants => {
 
-      // define a object which stores rendering settings for search result
-      let ContentSetting = {
-        // turn on alert model
-        enableAlert: filteredRestaurants.length ? false : true,
-        // define the message on alert model
-        message: {
-          title: '搜尋失敗',
-          text: `找不到名為 ${originKeyword} 的餐廳，請更換名稱`
-        },
-        // search keyword
-        keyword: originKeyword,
-        // define sort for searching 
-        sort
+      if (req.url === '/') {
+        restaurantList = restaurants
       }
+
+      const isSearching = Boolean(keyword)
+
+
+      let ContentSetting = {
+        enableAlert: false
+      }
+
+
+      if (isSearching) {
+        ContentSetting['keyword'] = originKeyword
+        ContentSetting['sort'] = sort
+
+        if (restaurants.length === 0) {
+          ContentSetting['enableAlert'] = true
+          ContentSetting['message'] = {
+            title: '搜尋失敗',
+            text: `找不到名為 ${originKeyword} 的餐廳，請更換名稱`
+          }
+          ContentSetting['sort'] = 'name-asc-en'
+          restaurants = restaurantList
+        }
+      }
+
 
       // render a page according via data and setting object
       res.render('index', { restaurants, ContentSetting })
@@ -87,5 +83,21 @@ router.get('/search', (req, res) => {
     .catch(error => console.log(error))
 
 })
+
+router.use(function (req, res, next) {
+  res.status(404);
+
+  res.format({
+    html: function () {
+      res.render('404', { url: req.url })
+    },
+    json: function () {
+      res.json({ error: 'Not found' })
+    },
+    default: function () {
+      res.type('txt').send('Not found')
+    }
+  })
+});
 
 module.exports = router

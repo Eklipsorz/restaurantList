@@ -57,6 +57,7 @@ const handlebarsInstance = handlebarsModule.create({
     // add a helper for showing default option
     // if selectOption is same as currentOption, that means currentOption is selected by user
     displayDefaultOption: function (selectedOption, currentOption) {
+      console.log(selectedOption, currentOption)
       return selectedOption === currentOption ? 'selected' : ''
     }
   }
