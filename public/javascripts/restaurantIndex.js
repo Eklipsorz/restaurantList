@@ -7,8 +7,7 @@ const deleteForms = document.querySelectorAll('.delete-form')
 deleteForms.forEach(deleteForm =>
   deleteForm.addEventListener('submit', (event) => {
 
-    event.preventDefault()
-    event.stopPropagation()
+
     const restaurantName = deleteForm.dataset.name
 
     // fire a event to swal for showing alert model
@@ -28,6 +27,8 @@ deleteForms.forEach(deleteForm =>
       } else if (result.isDenied) {
         // If user click a button for cancelling, it just cancel execution of deleting it
         Swal.fire('別擔心，我沒移除喔 :>', '', 'info')
+        event.preventDefault()
+        event.stopPropagation()
       }
     })
 
