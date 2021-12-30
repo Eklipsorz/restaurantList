@@ -6,7 +6,7 @@ const router = express.Router()
 
 
 router.get('/register', (req, res) => {
-  res.render('register')
+  res.render('register', { layout: 'register' })
 })
 
 router.post('/register', (req, res) => {
