@@ -20,13 +20,19 @@ const methodOverride = require('method-override')
 // define application's router 
 const router = require('./routes')
 
+
+// load dotenv module
 if (process.env.NODE_ENV != 'production') {
   require('dotenv').config()
 }
 
+//
+
+const usePassport = require('./config/passport')
+
+
 
 // define port
-
 const port = process.env.PORT || 3000
 
 // define a restaurant list
@@ -91,6 +97,13 @@ app.engine('.hbs', handlebarsInstance.engine)
 // set view engine in app to .hbs
 app.set('view engine', '.hbs')
 
+console.log(process.env.SESSION_SECRET)
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false
+}))
+
 
 // set static file root
 app.use('/', express.static('public'))
@@ -102,11 +115,7 @@ app.use('/', express.urlencoded({ extended: true }))
 app.use('/', methodOverride('_method'))
 
 
-app.use(session({
-  secret: process.env.SESSION_SECRET,
-  resave: false,
-  saveUninitialized: false
-}))
+usePassport(app)
 
 // bind router to / 
 app.use('/', router)

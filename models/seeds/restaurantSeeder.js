@@ -62,10 +62,5 @@ db.once('open', async () => {
       db.close()
     })
 
-
-
-  // await restaurantModel.create(defaultData)
-  // console.log('The seed data have been built.')
-  // db.close()
 })
 
