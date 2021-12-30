@@ -12,16 +12,11 @@
   <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
     integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
 
-  {{!--
-  <link rel="stylesheet" href="/stylesheets/all.css"> --}}
+
   <link rel="stylesheet" href="/stylesheets/restaurant.css">
   <link rel="stylesheet" href="/stylesheets/formValidation.css">
 
 
-  {{!--
-  <script defer src="/javascripts/jquery-3.3.1.js"></script>
-  <script defer src="/javascripts/popper.js"></script>
-  <script defer src="/javascripts/bootstrap.js"></script> --}}
 
 
   {{!-- load sweetalert2 --}}
@@ -41,12 +36,17 @@
         <a class="navbar-brand" href="/">
           <img src="https://assets-lighthouse.s3.amazonaws.com/uploads/image/file/6227/restaurant-list-logo.png"
             width="30" height="30" class="d-inline-block align-top" alt="我的餐廳清單">
-          我的餐廳清單
+          {{#if isAuthenticated}}{{user.name}}的{{/if}}餐廳清單
         </a>
 
-        <a class="btn btn-outline-info" href="/restaurants/new">
-          新增餐廳
-        </a>
+        <div class="d-flex">
+          <a class="btn btn-info mx-3" href="/restaurants/new">
+            新增餐廳
+          </a>
+          <a class="btn btn-outline-info" href="/users/logout">
+            登出
+          </a>
+        </div>
 
       </div>
     </nav>
