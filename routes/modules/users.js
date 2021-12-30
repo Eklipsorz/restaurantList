@@ -14,7 +14,7 @@ router.post('/register', (req, res) => {
 })
 
 router.get('/login', (req, res) => {
-
+  res.render('login', { layout: 'entryLayout' })
 })
 router.post('/login', (req, res) => {
 
