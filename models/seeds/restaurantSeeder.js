@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const restaurantModel = require('../restaurantModel')
 const defaultData = require('./restaurant.json').results
-const db = require('../../config/connectMongoDB')
+const db = require('../../config/mongoose')
 
 
 // create seed data and close db

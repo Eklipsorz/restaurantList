@@ -11,7 +11,8 @@ const restaurantSchema = new Schema({
   location: { type: String, required: true },
   name_en: { type: String },
   rating: { type: mongoose.Types.Decimal128 },
-  google_map: { type: String }
+  google_map: { type: String },
+  userId: { type: Schema.Types.ObjectId, ref: 'user', index: true, required: true }
 })
 
 exports = module.exports = mongoose.model('restaurantList', restaurantSchema)

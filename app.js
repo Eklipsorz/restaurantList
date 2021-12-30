@@ -5,7 +5,13 @@ const handlebarsModule = require('express-handlebars')
 // load modules about mongodb, mongoose, mongoose model
 const mongoose = require('mongoose')
 const restaurantModel = require('./models/restaurantModel')
-const db = require('./config/connectMongoDB')
+const db = require('./config/mongoose')
+
+
+// load session module
+const session = require('express-session')
+
+
 
 // load third-part module (method-override)
 const methodOverride = require('method-override')
@@ -14,6 +20,14 @@ const methodOverride = require('method-override')
 // define application's router 
 const router = require('./routes')
 
+if (process.env.NODE_ENV != 'production') {
+  require('dotenv').config()
+}
+
+
+// define port
+
+const port = process.env.PORT || 3000
 
 // define a restaurant list
 let restaurantList = ''
@@ -26,6 +40,8 @@ const handlebarsInstance = handlebarsModule.create({
   layoutsDir: "views/layouts",
   // set default global layout
   defaultLayout: "main",
+  // set default path which stores partials
+  partialDir: "views/partials",
   // set template file extension to .hbs
   extname: ".hbs",
 
@@ -63,8 +79,7 @@ const handlebarsInstance = handlebarsModule.create({
 })
 
 
-// define port
-const port = 3500
+
 
 
 // set default views path
@@ -85,6 +100,13 @@ app.use('/', express.urlencoded({ extended: true }))
 
 // set method-override module to get value via _method attribute
 app.use('/', methodOverride('_method'))
+
+
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false
+}))
 
 // bind router to / 
 app.use('/', router)
