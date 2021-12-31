@@ -17,12 +17,12 @@ function usePassport(app) {
     userModel.findOne({ email })
       .then(user => {
         // cannot find user
-        if (!user) return done(null, false)
+        if (!user) return done(null, false, { message: 'The email is not registered' })
         // successfully find the user, but we need to check their password
         return bcrypt.compare(password, user.password)
           .then(isMatched => {
             // the password is not matched
-            if (!isMatched) return done(null, false)
+            if (!isMatched) return done(null, false, { message: 'Incorrect email or password!!' })
             // the password is matched
             return done(null, user)
           })

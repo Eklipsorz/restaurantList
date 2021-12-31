@@ -16,6 +16,8 @@ const session = require('express-session')
 // load third-part module (method-override)
 const methodOverride = require('method-override')
 
+// load flash message module
+const flash = require('connect-flash')
 
 // define application's router 
 const router = require('./routes')
@@ -116,11 +118,17 @@ app.use('/', methodOverride('_method'))
 
 
 usePassport(app)
+app.use(flash())
 
 app.use('/', (req, res, next) => {
 
   res.locals.isAuthenticated = req.isAuthenticated
   res.locals.user = req.user
+  res.locals.loginFailure_message = req.flash('error')
+  res.locals.warning_message = req.flash('warning_message')
+
+
+
   next()
 })
 
