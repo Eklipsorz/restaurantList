@@ -25,6 +25,8 @@ router.get(/^\/*\/$|^\/search/, (req, res) => {
 
   // define where query inside MongoDB
   let where = {}
+  where.userId = req.user._id
+
 
   // if user input something
   if (originKeyword = req.query.keyword) {
@@ -47,14 +49,13 @@ router.get(/^\/*\/$|^\/search/, (req, res) => {
     collationSetting['locale'] = locale
 
     // determine what where query is 
-    where = {
-      $or: [
-        { name: { $regex: keyword, $options: 'i' } },
-        { category: { $regex: keyword, $options: 'i' } }
-      ]
-    }
-  }
+    where.$or = [
+      { name: { $regex: keyword, $options: 'i' } },
+      { category: { $regex: keyword, $options: 'i' } }
+    ]
 
+  }
+  
   // use the above settings to find something user want to see
   restaurantModel.find(where)
     .lean()
