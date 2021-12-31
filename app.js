@@ -99,7 +99,6 @@ app.engine('.hbs', handlebarsInstance.engine)
 // set view engine in app to .hbs
 app.set('view engine', '.hbs')
 
-console.log(process.env.SESSION_SECRET)
 app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
