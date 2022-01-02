@@ -3,20 +3,29 @@ A web application which provides restaurant information to help most people dete
 
 
 ## Screentshots
+### Login Page
+![Login Page](https://res.cloudinary.com/dqfxgtyoi/image/upload/v1641103393/github/finalVersion/loginPage_hf8jkc.png)
+### Register Page
+![Register Page](https://res.cloudinary.com/dqfxgtyoi/image/upload/v1641103389/github/finalVersion/registerPage_nxrepg.png)
 ### Index Page
-![Index Page](https://res.cloudinary.com/dqfxgtyoi/image/upload/v1638623791/github/Index_A6_rfwgoc.png)
+![Index Page](https://res.cloudinary.com/dqfxgtyoi/image/upload/v1641103382/github/finalVersion/indexPage_yetysv.png)
 ### Show Detail Page
-![Show Detail Page](https://res.cloudinary.com/dqfxgtyoi/image/upload/v1638205849/github/showDetail_CRUD_icx0tk.png)
+![Show Detail Page](https://res.cloudinary.com/dqfxgtyoi/image/upload/v1641103374/github/finalVersion/showDetailPage_xyns0l.png)
+### Edit Page
+![Edit Page](https://res.cloudinary.com/dqfxgtyoi/image/upload/v1641103359/github/finalVersion/editPage_vvh73j.png)
+### Deletion Page
+![Deletion Page](https://res.cloudinary.com/dqfxgtyoi/image/upload/v1641103380/github/finalVersion/deletionPage_isyxoh.png)
 ### Creation Page
-![Creation Page](https://res.cloudinary.com/dqfxgtyoi/image/upload/v1638205837/github/creationPage_CRUD_yu609g.png)
+![Creation Page](https://res.cloudinary.com/dqfxgtyoi/image/upload/v1641103364/github/finalVersion/creationPage_vgr5da.png)
+
 ## Features
 1. View all restaurant info.
 2. View the restaurant info via clicking one of restaurant
 3. Search restaurant you want to know
 4. Create a restaurant info you want to recommend
 5. Delete a restaurant info
-
-
+6. Login in with your account
+7. Register a new account for youself
 
 ## Requirement
 1. Node.js (v14.16.0 is recommended)
@@ -40,7 +49,7 @@ cd restaurantList
 npm install
 ```
 
-4. open your MongoDB server (port:27017) and create a database called restaurantList 
+4. Open your MongoDB server (port:27017) and create a database called restaurantList 
 
 
 5. Go back to restaurantList dir and generate a set of seed data for MongoDB database 
@@ -62,7 +71,7 @@ npm run dev
 3. Open your browser and input the following url
 
 ```
-http://localhost:3500/
+http://localhost:3000/
 ```
 
 ## Contributor
