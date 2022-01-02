@@ -1,3 +1,5 @@
+{{!-- when there is something wrong in login page --}}
+{{!-- e.g., incorrect email or password, email is not registered --}}
 {{#if loginFailureMessage}}
 <div class="alert alert-danger alert-dismissible fade show" role="alert">
   {{{loginFailureMessage}}}
@@ -7,8 +9,7 @@
 </div>
 {{/if}}
 
-
-
+{{!-- when user sccessfully log out --}}
 {{#if logoutSuccessMessage}}
 <div class="alert alert-success alert-dismissible fade show" role="alert">
   {{{ logoutSuccessMessage }}}
@@ -20,7 +21,7 @@
 
 
 
-
+{{!-- when user try to use other page without logging --}}
 {{#if loginFirstWarningMessage}}
 <div class="alert alert-warning alert-dismissible fade show" role="alert">
   {{{ loginFirstWarningMessage }}}
@@ -30,6 +31,9 @@
 </div>
 {{/if}}
 
+
+{{!-- when there is something wrong in the register page --}}
+{{!-- e.g., one of the fields is empty, the passwords are differenct and email has been registered --}}
 {{#if registerWarningMessages}}
 {{#each registerWarningMessages}}
 <div class="alert alert-warning alert-dismissible fade show" role="alert">

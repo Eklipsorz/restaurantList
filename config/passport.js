@@ -8,14 +8,18 @@ const userModel = require('../models/userModel')
 
 function usePassport(app) {
 
+  // initialize passport and passport session function
   app.use(passport.initialize())
   app.use(passport.session())
 
+  // define a local validation strategy which passport.js could use
   passport.use(new LocalStrategy({
     passReqToCallback: true,
     usernameField: 'email'
   }, (req, email, password, done) => {
+    // when passport obtains email and password
 
+    // check whether the email has been registered
     userModel.findOne({ email })
       .then(user => {
         // cannot find user
@@ -33,19 +37,26 @@ function usePassport(app) {
       .catch(err => done(err, false))
   }))
 
-
+  // define a facebook validation strategy which passport.js could use
   passport.use(new FacebookStrategy({
+    // define a set of data for authentication
     clientID: process.env['FACEBOOK_ID'],
     clientSecret: process.env['FACEBOOK_SECRET'],
     callbackURL: process.env['FACEBOOK_CALLBACK'],
+
+    // define what profile._json is 
     profileFields: ['email', 'displayName']
   }, (accessToken, refreshToken, profile, done) => {
-    const { email, name } = profile._json
+    // when passport.js obtains profile data with accessToken
 
+    const { email, name } = profile._json
+    // check whether the email has been registered
     userModel.findOne({ email })
       .then(user => {
+        // if exists
         if (user) return done(null, user)
 
+        // if not, then it create a new user
         const newPassword = Math.random().toString(36).slice(-8)
 
         return bcrypt
@@ -63,7 +74,7 @@ function usePassport(app) {
       })
   }))
 
-
+  // define how to serialize and how to deserialize
   passport.serializeUser((user, done) => {
     done(null, user._id)
   })

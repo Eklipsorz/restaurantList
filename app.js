@@ -1,4 +1,4 @@
-// define express server, handlebars
+// load express server and handlebars
 const express = require('express')
 const handlebarsModule = require('express-handlebars')
 
@@ -10,8 +10,6 @@ const db = require('./config/mongoose')
 
 // load session module
 const session = require('express-session')
-
-
 
 // load third-part module (method-override)
 const methodOverride = require('method-override')
@@ -28,17 +26,13 @@ if (process.env.NODE_ENV != 'production') {
   require('dotenv').config()
 }
 
-//
-
+// load usePassport function
 const usePassport = require('./config/passport')
 
 
 
 // define port
 const port = process.env.PORT || 3000
-
-// define a restaurant list
-let restaurantList = ''
 
 const app = express()
 
@@ -58,7 +52,6 @@ const handlebarsInstance = handlebarsModule.create({
     // add a helper for showing alert model
     // if enableAlert is true, it show alert model according to message.
     // if enableAlert is false, it show nothing.
-
     alertModel: function (enableAlert, message) {
 
 
@@ -78,15 +71,21 @@ const handlebarsInstance = handlebarsModule.create({
       </script>
       `
     },
+
     // add a helper for showing default option
     // if selectOption is same as currentOption, that means currentOption is selected by user
     displayDefaultOption: function (selectedOption, currentOption) {
       return selectedOption === currentOption ? 'selected' : ''
     },
+
+    // a if helper which supports operator like 'and'
     ifOperator: function (parameter1, operator, parameter2, options) {
-      
+
+      // define execution of the operator inside a single if statement
       switch (operator) {
         case '&&':
+          // if two parameters are true, then render a template file from the block.
+          // Otherwise, then render nothing
           return (parameter1 && parameter2) ? options.fn(this) : options.inverse(this)
       }
     }
@@ -106,6 +105,8 @@ app.engine('.hbs', handlebarsInstance.engine)
 // set view engine in app to .hbs
 app.set('view engine', '.hbs')
 
+
+// set express-session with settings
 app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
@@ -126,10 +127,14 @@ app.use('/', methodOverride('_method'))
 usePassport(app)
 app.use(flash())
 
+// receive some info from redirection or authentication
 app.use('/', (req, res, next) => {
 
+  // obtain info from authentication between server and client
   res.locals.isAuthenticated = req.isAuthenticated
   res.locals.user = req.user
+
+  // obtain info from redirection which login and logut event make
   res.locals.loginFailureMessage = req.flash('error')
   res.locals.logoutSuccessMessage = req.flash('logout-success-message')
   res.locals.loginFirstWarningMessage = req.flash('loginfirst-warning-message')
