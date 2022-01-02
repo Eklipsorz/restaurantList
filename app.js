@@ -82,6 +82,13 @@ const handlebarsInstance = handlebarsModule.create({
     // if selectOption is same as currentOption, that means currentOption is selected by user
     displayDefaultOption: function (selectedOption, currentOption) {
       return selectedOption === currentOption ? 'selected' : ''
+    },
+    ifOperator: function (parameter1, operator, parameter2, options) {
+      
+      switch (operator) {
+        case '&&':
+          return (parameter1 && parameter2) ? options.fn(this) : options.inverse(this)
+      }
     }
   }
 })
